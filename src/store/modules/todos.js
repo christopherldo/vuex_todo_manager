@@ -18,12 +18,19 @@ const actions = {
     commit('setTodos', response.data);
   },
   async addTodo({ commit }, title) {
-    const response = await axios.post(
-      'https://jsonplaceholder.typicode.com/todos',
-      { title, completed: false }
-    );
+    // This is fake, just to show how to add:
+    // const response = await axios.post(
+    //   'https://jsonplaceholder.typicode.com/todos',
+    //   { title, completed: false }
+    // );
+    //
+    // const todo = {...response.data, id: uuid()};
 
-    const todo = {...response.data, id: uuid()};
+    const todo = {
+      id: uuid(),
+      title,
+      completed: false,
+    };
 
     commit('newTodo', todo);
   },
@@ -38,6 +45,17 @@ const actions = {
     );
 
     commit('setTodos', response.data);
+  },
+  async updateTodo({ commit }, todo) {
+    // This is fake, just to show how to update:
+    // const response = await axios.put(
+    //   `https://jsonplaceholder.typicode.com/todos/${todo.id}`,
+    //   todo
+    // );
+    //
+    // commit('updateTodo', response.data);
+
+    commit('updateTodo', todo);
   }
 };
 
@@ -46,6 +64,12 @@ const mutations = {
   newTodo: (state, todo) => state.todos.unshift(todo),
   removeTodo: (state, id) =>
     (state.todos = state.todos.filter(todo => todo.id !== id)),
+  updateTodo: (state, todo) => {
+    const index = state.todos.findIndex(t => t.id === todo.id);
+    if (index !== -1) {
+      state.todos.splice(index, 1, todo);
+    }
+  }
 };
 
 export default {
