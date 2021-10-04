@@ -23,8 +23,7 @@ const actions = {
       { title, completed: false }
     );
 
-    const todo = response.data;
-    todo.id = uuid();
+    const todo = {...response.data, id: uuid()};
 
     commit('newTodo', todo);
   },
@@ -32,6 +31,13 @@ const actions = {
     // This is fake, just to show how to delete:
     // await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
     commit('removeTodo', id);
+  },
+  async filterTodos({ commit }, limit) {
+    const response = await axios.get(
+      `https://jsonplaceholder.typicode.com/todos?_limit=${limit}`
+    );
+
+    commit('setTodos', response.data);
   }
 };
 
