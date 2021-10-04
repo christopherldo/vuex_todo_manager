@@ -27,12 +27,19 @@ const actions = {
     todo.id = uuid();
 
     commit('newTodo', todo);
+  },
+  async deleteTodo({ commit }, id) {
+    // This is fake, just to show how to delete:
+    // await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
+    commit('removeTodo', id);
   }
 };
 
 const mutations = {
   setTodos: (state, todos) => (state.todos = todos),
   newTodo: (state, todo) => state.todos.unshift(todo),
+  removeTodo: (state, id) =>
+    (state.todos = state.todos.filter(todo => todo.id !== id)),
 };
 
 export default {
